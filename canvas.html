@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Mode</title>
+  <link rel="stylesheet" href="canvas.css" />
+</head>
+<body>
+  <header>
+    <h3 onclick="window.open('canvas.html', '_blank')">🎙️ Script Narrator</h3>
+    <button id = "ReadWrite-btn" onclick="toggleEditMode()">📖 READ</button>
+    <button onclick="toggleTheme()">Theme</button>
+  </header>
+  <main>
+    <div id="highlight-layer" aria-hidden="true"></div>
+    <textarea id="real-editor" placeholder="Hey, don’t just stare — write something." spellcheck="false" readonly autofocus></textarea>
+  </main>
+  <script src="highlight.js"></script>
+  <script src="history.js"></script>
+  <script src="canvas.js"></script>
+</body>
+</html>

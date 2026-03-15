@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Script-to-Voice Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <h1 onclick="window.open('canvas.html', '_blank')">🎙️ Script Narrator<br><small style="color:gray; font-weight:lighter; font-size: small; pointer-events: none;">Experimental, expressive.</small></h1>
+    <div id="error-box"></div>  
+    <div class="top-buttons">
+      <button id="run-script">▶ play</button>
+      <button id="stop-script" style="display: none;">⏹ Stop</button>
+      <button id="timer" style="display: none;">00s:00ms</button>
+      <button id="open-folder" onclick="showModal('vfsModal')">📂 Folders</button>
+      <button id="share-btn" onclick="showModal('share-modal')">⇅ Share</button>
+      <button id="Help" onclick="helpHandler()">⚙️</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="editor-wrapper">
+      <div class="highlight-layer" id="highlight"></div>
+      <textarea class="real-editor" id="script-input" spellcheck="false" placeholder="Start writing your script here..." autofocus></textarea>
+      <div id="suggest-box" style="display:none; position:absolute;"></div>
+    </div>
+
+    <div class="character-panel" id="characterPanel">
+      <div id="chat-icons">
+        <div class="mascot" id="questionMark" title="Why are you intrupting us?" >?</div>
+        <div class="mascot" id="exclaimation" title="Focus on your work!">!</div>
+      </div>
+      <h2 id="Characters">🎭 Characters</h2>
+      <div id="character-list"></div>
+      <div id="character-message-container"></div>
+   
+
+    </div>
+  </div>
+
+
+<div id="vfsModal" class="vfs-modal" style="display:none;">
+  <div class="vfs-modal-content">
+    <div class="vfs-header">
+      <span>Virtual File System</span>
+      <button onclick="hideModal('vfsModal')">✖</button>
+    </div>
+
+    <div class="vfs-folders">
+      <div id="Sounds" onclick="openFolder('Sounds')" class="folder">🎵 Sounds</div>
+      <div id="Scripts" onclick="openFolder('Scripts')" class="folder">📜 Scripts</div>
+      <div id="Versions" onclick="openFolder('Versions')" class="folder">📄 Versions</div>
+      <div id="HistorySettings" onclick="HistoryControl()" class="folder">🕰️ History...</div>
+    </div>
+
+    <div id="vfsContents" class="vfs-contents"></div>
+
+    <div class="vfs-upload">
+      Upload: <input type="file" onchange="handleFileUpload(this.files[0])" />
+    </div>
+  </div>
+</div>
+
+<div id="contextMenu" class="context-menu">
+  <div id="ctxPlayView" onclick="handleViewOrPlay()">▶ View / Play</div>
+  <div id="ctxCopy">📋 Copy Load Syntax</div>
+  <div id="ctxRename" onclick="showRenameModal()">✏️ Rename</div>
+</div>
+
+<div id="flashToast" class="copy-toast">Copied!</div>
+
+<div id="renameModal" class="vfs-modal" style="display: none;">
+  <div class="vfs-modal-content">
+    <div class="vfs-header">
+      <span>Rename File</span>
+      <button onclick="hideModal('renameModal')">✖</button>
+    </div>
+    <div class="rename-content">
+      <p>New name for <strong id="renameOldName"></strong>:</p>
+      <input type="text" id="renameInput" class="renameInput"/>
+      <button id="rename-btn" class="rename-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="share-modal" class="vfs-modal" style="display: none;">
+  <div class="vfs-modal-content">
+    <div class="vfs-header">
+      <span>Share Script</span>
+      <button onclick="hideModal('share-modal')">✖</button>
+    </div>
+      <div class="rename-content">
+        <p>Choose how you'd like to share or preserve your script and narration.</p>
+        <div class="vfs-folders">
+          <button class="folder" onclick="downloadScript()">⬇️ Download Now<br>(.echo Script)</button>
+          <button class="folder" onclick="recordingHandler()">🔴 Record Audio<br>(not available!)</button>
+          <button class="folder" onclick="shareLink()">🔗 Share Link<br>(may be too long!)</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<div id="dummy-modal" class="vfs-modal" style="display: none;">
+  <div class="vfs-modal-content">
+    <div class="vfs-header">
+      <span id="dummy-modal-heading">Share Script</span>
+      <button onclick="hideModal('dummy-modal')">✖</button>
+    </div>
+      <div class="rename-content">
+        <p id="dummy-modal-text"></p>
+      <input type="text" id="dummy-modal-input"  class="renameInput"/>
+      <button id="dummy-modal-btn" class="rename-btn"></button>
+      </div>
+  </div>
+</div>
+
+  <script src="data.js"></script>
+  <script src="parser.js"></script>
+  <script src="UISettings.js"></script>
+  <script src="audio.js"></script>
+  <script src="autoComplete.js"></script>
+  <script src="highlight.js"></script>
+  <script src="history.js"></script>
+  <script src="mascots.js"></script>
+  <script src="script.js"></script>
+  <script src="VFS.js"></script>
+</body>
+</html>

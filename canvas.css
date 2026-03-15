@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color, #1e1e2f);
+  color: var(--text-color, white);
+  caret-color: var(--text-color, white);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--header-bg, #1e1e2a);
+  color: inherit;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  margin-left: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+header button:hover {
+  background: #555;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--text);
+  background: var(--bg);
+  font-size: 16px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+#highlight-layer, #real-editor {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 1em;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+#highlight-layer {
+  color: var(--text);
+  background-color: var(--bg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#real-editor {
+  color: transparent;
+  background: transparent;
+  caret-color: var(--text);
+  border: none;
+  resize: none;
+  z-index: 2;
+  outline: none;
+}
+
+#highlight-layer span { white-space: pre-wrap;}
+.comment { color: var(--comment,gray); font-style: italic; }
+.character { color: var(--character,gold); font-weight: bold; }
+.parenthesis { color: var(--parenthesis,cyan); }
+.square { color: var(--square,red); }
+.curly { color: var(--curly,violet); }
+.bold { font-weight: bold; }
+.italic { font-style: italic; }
+.quotation { color: var(--quotation,orange); }
+.elipses { color: var(--elipses,blueviolet); }
+.comment-block { color: var(--comment-block,var(--comment,gray)); font-style: italic; }
+.scene-tag { font-weight: bold; color: var(--scene-tag,green); }
+.scene-end { font-weight: bold; color: var(--scene-end,maroon); }
+
+
+body.light {
+  --bg-color: white;
+  --text-color: black;
+  --header-bg: whitesmoke;
+  --parenthesis: blue;
+  --comment: gainsboro;
+  --elipses: silver;
+}
+
+body.sepia {
+  --bg-color: antiquewhite;
+  --text-color: #5b4636;
+  --header-bg: #e2d3b3;
+  --parenthesis: blue;
+  --comment: silver;
+}
+
+
+body.dark {
+  --bg-color: black;
+  --text-color: white;
+  --header-bg: gray;
+}

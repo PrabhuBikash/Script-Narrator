@@ -1,0 +1,453 @@
+:root {
+  --bg: #1e1e2f;
+  --text: white;
+  --accent: #00d0ff;
+  --error: red;
+}
+
+
+/*--------------------------------------------------------Base Styles--------------------------------------------------------*/
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg);
+  padding: 1rem;
+}
+
+.top-bar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+#error-box {
+  color: var(--error);
+  padding: 0.3rem 1rem;
+  font-family: sans-serif;
+  font-size: 1rem;
+}
+
+.top-bar button {
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+#editor-wrapper {
+  position: relative;
+  width: 60%;
+  height: 100%;
+  border: 2px solid var(--text);
+  background: var(--bg);
+  font-size: 16px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.highlight-layer, .real-editor {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 1em;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+.highlight-layer {
+  color: var(--text);
+  background-color: var(--bg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.real-editor {
+  color: transparent;
+  background: transparent;
+  caret-color: var(--text);
+  border: none;
+  resize: none;
+  z-index: 2;
+  outline: none;
+}
+
+.highlight-layer span { white-space: pre-wrap;}
+.comment { color: gray; font-style: italic; }
+.character { color: gold; font-weight: bold; }
+.parenthesis { color: cyan; }
+.square { color: red; }
+.curly { color: violet; }
+.bold { font-weight: bold; }
+.italic { font-style: italic; }
+.quotation { color: orange; }
+.elipses { color: blueviolet; }
+.comment-block { color: gray; font-style: italic; }
+.scene-tag { font-weight: bold; color: green;}
+.scene-end { font-weight: bold; color: maroon;}
+
+#characterPanel {
+  width:50%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  padding: 1rem;
+  overflow-y: auto;
+  border: 2px solid var(--text);
+}
+
+/*--------------------------------------------------------Character Menu Styles--------------------------------------------------------*/
+#character-list {
+  margin-top: 1rem;
+}
+
+.char-box {
+  margin-bottom: 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.char-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.voice-select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  padding: 0.2rem 0.5rem;
+  width: 80%;
+}
+
+.toggle-icon {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.char-advanced {
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tone-setting {
+  border: 1px dashed var(--accent);
+  padding: 0.5rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tone-setting label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+
+
+
+
+/*--------------------------------------------------------Help Modal Styles--------------------------------------------------------*/
+#Help{
+  aspect-ratio: 1/1;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+/*--------------------------------------------------------Suggest Box Styles--------------------------------------------------------*/
+#suggest-box {
+  position: absolute;
+  background: var(--bg);
+  color: white;
+  border: 1px solid gray;
+  z-index: 9999;
+  padding: 4px;
+  font-family: monospace;
+  font-size: 14px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+#suggest-box .suggestion {
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+#suggest-box .suggestion:hover {
+  background: gray;
+}
+#suggest-box .suggestion small{
+  color:lightgray;
+}
+/*--------------------------------------------------------Virtual File System!--------------------------------------------------------*/
+.vfs-modal {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  opacity: 0;
+  transform: translate(+50%, 100%) scale(0.5);
+  transition: transform 250ms ease, opacity 250ms ease, width 250ms ease;
+}
+
+.vfs-modal-content {
+  width: 500px;
+  border: 2px solid gray;
+  border-radius: 6px;
+  box-shadow: 0 0 12px black;
+  overflow: hidden;
+}
+
+.vfs-header {
+  background: gainsboro;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.vfs-header button {
+  background: orangered;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.vfs-folders, .rename-content{
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: white;
+  border-bottom: 1px solid gray;
+}
+
+.folder {
+  background: white;
+  border: 1px solid gray;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  aspect-ratio: 2/1;
+}
+
+.folder:hover, .selected {
+  background: lavender !important;
+}
+
+.vfs-contents {
+  padding: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+}
+
+.vfs-contents .file {
+  padding: 6px;
+  border-bottom: .5px solid gray;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vfs-contents .file:hover {
+  background: lavender;
+}
+
+.vfs-upload {
+  padding: 10px;
+  background: lightgray;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.context-menu {
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid gainsboro;
+  color: black;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 14px;
+  border-radius: 4px;
+}
+.context-menu div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.context-menu div:hover {
+  background-color: gainsboro;
+}
+
+
+.copy-toast {
+  position: fixed;
+  left: 46%;
+  top: 50vh;
+  background: black;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+
+
+#renameModal{
+  z-index: 2000;
+}
+
+.rename-content {
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 0.8rem;
+  font-family: sans-serif;
+}
+
+.rename-content p {
+  margin: 0;
+  font-size: 1rem;
+  color: black;
+}
+
+#renameOldName {
+  font-weight: bold;
+  color: gray;
+}
+
+.renameInput {
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid gainsboro;
+  outline: none;
+  width: 80%;
+  max-width: 300px;
+}
+
+.rename-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  min-width: 200px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+
+/*--------------------------------------------------------?! Styles--------------------------------------------------------*/
+#chat-icons {
+  position: absolute;
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+  right: 10rem;
+}
+@media (max-width: 768px) { #chat-icons { position: relative; right: 0; } }
+
+#chat-icons div {
+  width: 1.8rem;
+  height: 1.8rem;
+  font-weight: bold;
+  background: var(--text);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+#chat-icons div:hover {
+  transform: scale(1.1);
+}
+
+#character-message-container {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.message-bubble {
+  background: var(--bg);
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  max-width: 80vw;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-family: monospace;
+}
